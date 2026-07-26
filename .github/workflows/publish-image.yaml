@@ -29,7 +29,6 @@ jobs:
     if: github.event_name == 'push'
     needs: test
     runs-on:
-      - self-hosted
       - arc-runner-set
     permissions:
       contents: read
