@@ -13,7 +13,8 @@ permissions:
 
 jobs:
   test:
-    runs-on: self-hosted
+    # runs-on: self-hosted
+    runs-on: arc-runner-set
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v5
