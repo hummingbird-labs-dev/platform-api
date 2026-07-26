@@ -14,7 +14,6 @@ permissions:
 jobs:
   test:
     runs-on:
-      - self-hosted
       - arc-runner-set
     steps:
       - uses: actions/checkout@v4
