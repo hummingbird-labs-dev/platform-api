@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'dev.hummingbirdlabs'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 description = 'Hummingbird Labs platform API'
 
 java {

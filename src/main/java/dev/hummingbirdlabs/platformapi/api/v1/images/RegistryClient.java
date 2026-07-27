@@ -20,7 +20,7 @@ public class RegistryClient {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public RegistryClient(
-        @Value("${registry.url:http://registry.lan.hummingbirdlabs.dev}") String registryUrl
+        @Value("${registry.url:https://registry.lan.hummingbirdlabs.dev}") String registryUrl
     ) {
         this.registryUrl = normalizeUrl(registryUrl);
         this.httpClient = HttpClient.newHttpClient();
