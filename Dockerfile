@@ -6,10 +6,15 @@ RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/
 
 COPY build.gradle settings.gradle gradlew ./
 COPY gradle gradle
-RUN ./gradlew --no-daemon dependencies
+
+# Download gradle wrapper distribution and cache dependencies
+# Using --mount=type=cache to persist gradle cache between builds
+RUN --mount=type=cache,target=/root/.gradle \
+  ./gradlew --no-daemon dependencies
 
 COPY src src
-RUN ./gradlew --no-daemon bootJar
+RUN --mount=type=cache,target=/root/.gradle \
+  ./gradlew --no-daemon bootJar
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
