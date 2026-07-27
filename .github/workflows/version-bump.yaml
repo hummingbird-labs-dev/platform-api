@@ -1,0 +1,61 @@
+name: Auto-Bump Version
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - '.github/workflows/publish-image.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    # Skip if commit message is from this workflow to avoid infinite loops
+    if: ${{ !contains(github.event.head_commit.message, 'chore: bump version') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Git config
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        id: version
+        run: |
+          # Get current version from build.gradle
+          CURRENT_VERSION=$(grep "^version = " build.gradle | sed "s/version = '//g" | sed "s/-SNAPSHOT'//g")
+          echo "current_version=$CURRENT_VERSION"
+          
+          # Parse version parts
+          MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1)
+          MINOR=$(echo $CURRENT_VERSION | cut -d. -f2)
+          PATCH=$(echo $CURRENT_VERSION | cut -d. -f3)
+          
+          # Increment patch version
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+          
+          echo "new_version=$NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          
+          # Update build.gradle
+          sed -i "s/version = '.*'/version = '$NEW_VERSION-SNAPSHOT'/" build.gradle
+          
+          # Commit and push
+          git add build.gradle
+          git commit -m "chore: bump version to $NEW_VERSION"
+          git push origin main
+          
+          # Create git tag
+          git tag "v$NEW_VERSION"
+          git push origin "v$NEW_VERSION"
