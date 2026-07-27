@@ -21,9 +21,10 @@ jobs:
         id: gradle_version
         run: |
           # Reads the 'version=' line, strips whitespace, and removes quotes
-          VERSION=$(grep '^version=' gradle.properties | cut -d'=' -f2 | tr -d '[:space:]"')
+          VERSION=$(grep '^version=' build.gradle | cut -d'=' -f2 | tr -d '[:space:]"')
           echo "Base Gradle Version: $VERSION"
           # Saves it as an output variable for subsequent steps
+          echo "Setting output version for GitHub Actions to $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create and Push Tag
