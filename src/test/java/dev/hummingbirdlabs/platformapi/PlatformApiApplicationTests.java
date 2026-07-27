@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import dev.hummingbirdlabs.platformapi.api.v1.images.RegistryClient;
+import dev.hummingbirdlabs.platformapi.api.images.RegistryClient;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
