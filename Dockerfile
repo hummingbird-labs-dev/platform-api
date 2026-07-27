@@ -1,6 +1,9 @@
 FROM gradle:9.5.1-jdk21 AS build
 WORKDIR /workspace
 
+# Install CA certificates for SSL/TLS verification
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+
 COPY build.gradle settings.gradle gradlew ./
 COPY gradle gradle
 RUN ./gradlew --no-daemon dependencies
