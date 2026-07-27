@@ -49,11 +49,11 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Image version: $VERSION"
       
-      - name: Update build.gradle with tag version
+      - name: Update gradle.properties with tag version
         run: |
-          sed -i "s/^version = .*/version = '${{ steps.get-version.outputs.version }}'/" build.gradle
-          echo "Updated build.gradle to version ${{ steps.get-version.outputs.version }}"
-          grep "^version = " build.gradle
+          echo "version=${{ steps.get-version.outputs.version }}" >> gradle.properties
+          echo "Updated gradle.properties with version ${{ steps.get-version.outputs.version }}"
+          cat gradle.properties
       
       - uses: actions/setup-java@v5
         with:

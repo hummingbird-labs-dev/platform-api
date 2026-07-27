@@ -2,12 +2,12 @@
 set -euo pipefail
 
 # Script to calculate next version and tag the current commit
-# Uses build.gradle as the base version, finds the latest tag for that major.minor version,
+# Uses gradle.properties baseVersion as the base version, finds the latest tag for that major.minor version,
 # and increments the patch version
 
-# Get base version from build.gradle
-BUILD_VERSION=$(grep "^version = " build.gradle | awk -F"'" '{print $2}')
-echo "Base version in build.gradle: $BUILD_VERSION"
+# Get base version from gradle.properties
+BUILD_VERSION=$(grep "^baseVersion=" gradle.properties | awk -F'=' '{print $2}')
+echo "Base version in gradle.properties: $BUILD_VERSION"
 
 # Parse version components
 IFS='.' read -r MAJOR MINOR BASE_PATCH <<< "$BUILD_VERSION"
@@ -16,7 +16,7 @@ IFS='.' read -r MAJOR MINOR BASE_PATCH <<< "$BUILD_VERSION"
 LATEST_MATCHING_TAG=$(git tag -l "v$MAJOR.$MINOR.*" | sort -V | tail -1)
 
 if [ -z "$LATEST_MATCHING_TAG" ]; then
-  # No tags exist for this major.minor version yet, use base version from build.gradle
+  # No tags exist for this major.minor version yet, use base version from gradle.properties
   echo "No existing tags for v$MAJOR.$MINOR.*, starting from base version"
   NEXT_VERSION="$BUILD_VERSION"
 else
