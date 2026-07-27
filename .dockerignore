@@ -2,4 +2,8 @@
 .github
 README.md
 .gradle
-build
+src
+gradle
+*.gradle
+gradlew*
+.gitignore

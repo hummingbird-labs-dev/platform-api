@@ -36,21 +36,30 @@ jobs:
     runs-on:
       - arc-runner-set
     outputs:
-      version: ${{ steps.gradle-version.outputs.version }}
+      version: ${{ steps.get-version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get version from latest git tag
+        id: get-version
+        run: |
+          VERSION=$(git tag -l 'v*' | sort -V | tail -1 | sed 's/^v//')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Image version: $VERSION"
+      
+      - name: Update build.gradle with tag version
+        run: |
+          sed -i "s/^version = .*/version = '${{ steps.get-version.outputs.version }}'/" build.gradle
+          echo "Updated build.gradle to version ${{ steps.get-version.outputs.version }}"
+          grep "^version = " build.gradle
+      
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
           cache: gradle
-      
-      - name: Get version from Gradle
-        id: gradle-version
-        run: |
-          VERSION=$(./gradlew -q properties --no-daemon | grep "^version:" | awk '{print $2}')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Image version: $VERSION"
       
       - name: Build and test
         run: ./gradlew --no-daemon clean build
