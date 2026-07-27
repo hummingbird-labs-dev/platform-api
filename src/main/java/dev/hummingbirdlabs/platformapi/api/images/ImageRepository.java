@@ -1,9 +1,8 @@
-package dev.hummingbirdlabs.platformapi.api.v1.images;
+package dev.hummingbirdlabs.platformapi.api.images;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ImageRepository(

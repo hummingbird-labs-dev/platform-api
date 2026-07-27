@@ -1,7 +1,7 @@
-package dev.hummingbirdlabs.platformapi.api.v1.images;
+package dev.hummingbirdlabs.platformapi.api.images;
 
-import dev.hummingbirdlabs.platformapi.api.v1.common.ApiResponse;
-import dev.hummingbirdlabs.platformapi.api.v1.common.ErrorResponse;
+import dev.hummingbirdlabs.platformapi.api.common.ApiResponse;
+import dev.hummingbirdlabs.platformapi.api.common.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.Instant;
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/images")
+@RequestMapping("/api/images")
 @Tag(name = "Images", description = "Container image repository management")
 public class ImagesController {
     private final RegistryClient registryClient;

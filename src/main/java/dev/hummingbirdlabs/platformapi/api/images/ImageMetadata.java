@@ -1,4 +1,4 @@
-package dev.hummingbirdlabs.platformapi.api.v1.images;
+package dev.hummingbirdlabs.platformapi.api.images;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.Instant;
@@ -7,7 +7,6 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ImageMetadata(
-    String apiVersion,
     String kind,
     String repository,
     String tag,
@@ -21,7 +20,7 @@ public record ImageMetadata(
     Map<String, String> labels
 ) {
     public ImageMetadata(String repository, String tag, String digest) {
-        this("v1", "Image", repository, tag, digest, null, null, null, null, null, null, null);
+        this("Image", repository, tag, digest, null, null, null, null, null, null, null);
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

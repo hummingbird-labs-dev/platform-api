@@ -1,4 +1,4 @@
-package dev.hummingbirdlabs.platformapi.api.v1.images;
+package dev.hummingbirdlabs.platformapi.api.images;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;

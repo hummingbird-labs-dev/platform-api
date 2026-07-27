@@ -1,10 +1,9 @@
-package dev.hummingbirdlabs.platformapi.api.v1.common;
+package dev.hummingbirdlabs.platformapi.api.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ErrorResponse(
-    String apiVersion,
     String kind,
     String status,
     String message,
@@ -13,7 +12,7 @@ public record ErrorResponse(
     int code
 ) {
     public ErrorResponse(String message, String reason, int code) {
-        this("v1", "Status", "Failure", message, reason, null, code);
+        this("Status", "Failure", message, reason, null, code);
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
