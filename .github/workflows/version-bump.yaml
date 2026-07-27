@@ -20,17 +20,15 @@ jobs:
       - name: Extract Version from Gradle
         id: gradle_version
         run: |
-          # Reads the 'version=' line, strips whitespace, and removes quotes
-          VERSION=$(grep '^version =' build.gradle | cut -d'=' -f2 | tr -d '[:space:]"')
+          # Extract version from build.gradle: version = '1.0.0'
+          VERSION=$(grep "^version = " build.gradle | awk -F"'" '{print $2}')
           echo "Base Gradle Version: $VERSION"
-          # Saves it as an output variable for subsequent steps
-          echo "Setting output version for GitHub Actions to $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create and Push Tag
-        uses: anothrNick/github-tag-action@1.71.0 # Verify latest on GitHub Marketplace
+        uses: anothrNick/github-tag-action@1.71.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Optional configurations:
           WITH_V: true
           INITIAL_VERSION: ${{ steps.gradle_version.outputs.version }}
+
